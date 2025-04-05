@@ -1,0 +1,23 @@
+# https://taskfile.dev
+version: '3'
+tasks:
+    default:
+        - task: clean
+        - docker buildx build . --no-cache --pull --progress=plain -t freebusy:latest
+        - docker image ls | grep freebusy
+        - docker run -p 80:80 freebusy
+    setup:
+        - wget -qO- https://astral.sh/uv/install.sh | sh
+        - uv python install
+        - task: clean
+    install:
+        - task: clean
+        - pipx install --editable . --force
+    test:
+        - pre-commit run --all-files --verbose
+        - uv run pytest
+    clean:
+        - docker image rm freebusy --force
+        - rm -rf dist
+        - uv clean
+        - uv sync --all-packages

@@ -1,0 +1,42 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+    - package-ecosystem: "pip" # See documentation for possible values
+      open-pull-requests-limit: 0
+      directory: "/" # Location of package manifests
+      schedule:
+          interval: "monthly"
+      ignore:
+          - dependency-name: "setuptools"
+            versions: ["*"]
+          - dependency-name: "pytest*"
+            versions: ["*"]
+          - dependency-name: "python-dotenv"
+            versions: ["*"]
+          - dependency-name: "typing_extensions"
+            versions: ["*"]
+          - dependency-name: "vulture"
+            versions: ["*"]
+          - dependency-name: "bandit"
+            versions: ["*"]
+          - dependency-name: "whispers"
+            versions: ["*"]
+          - dependency-name: "ruff"
+            versions: ["*"]
+          - dependency-name: "flake8"
+            versions: ["*"]
+          # For all packages, ignore all patch updates
+          - dependency-name: "*"
+            update-types: ["version-update:semver-patch"]
+    # Disable version updates for GitHub Actions
+    - package-ecosystem: "github-actions"
+      # Workflow files stored in the default location of `.github/workflows`
+      # You don't need to specify `/.github/workflows` for `directory`. You can use `directory: "/"`.
+      open-pull-requests-limit: 0
+      directory: "/"
+      schedule:
+          interval: "monthly"

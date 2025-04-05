@@ -1,0 +1,41 @@
+name: Test
+
+on:
+    pull_request: {}
+    push:
+        branches: [main]
+        tags: ["*"]
+#    workflow_dispatch:
+jobs:
+    hooks:
+        runs-on: "ubuntu-latest"
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Enable caching and define a custom cache key suffix
+              id: setup-uv
+              uses: astral-sh/setup-uv@v5
+              with:
+                  enable-cache: true
+
+            - name: Set up Python
+              run: uv python install
+
+            - uses: pre-commit/action@v3.0.1
+
+    test:
+        runs-on: "ubuntu-latest"
+        needs: hooks
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Enable caching and define a custom cache key suffix
+              id: setup-uv
+              uses: astral-sh/setup-uv@v5
+              with:
+                  enable-cache: true
+
+            - name: Set up Python
+              run: uv python install
+
+            - run: uv run pytest

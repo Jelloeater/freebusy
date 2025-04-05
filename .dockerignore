@@ -1,0 +1,7 @@
+# Ignore everything
+**
+# ... except for dependencies and source
+!pyproject.toml
+!uv.lock
+!freebusy/
+!README.md

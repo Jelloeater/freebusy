@@ -1,0 +1,108 @@
+# .pre-commit-config.yaml @ Base Dir
+# See https://pre-commit.com/ for usage and config
+#### Install
+# pip install pre-commit
+# pip install --upgrade pre-commit
+# pre-commit install
+#### Uninstall
+# pre-commit uninstall
+# rm .git/hooks -rf
+#### To run manually
+# pre-commit run --all-files --verbose
+minimum_pre_commit_version: "3.2"
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-json
+      # - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-vcs-permalinks
+      - id: check-xml
+      # - id: check-yaml
+      - id: destroyed-symlinks
+      - id: pretty-format-json
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+      - id: fix-byte-order-marker
+      - id: check-symlinks
+      - id: check-toml
+      # - id: forbid-new-submodules
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+        exclude: .md
+
+  - repo: https://github.com/godaddy/tartufo
+    rev: v5.0.2
+    hooks:
+      - id: tartufo
+
+  #  - repo: https://github.com/gitleaks/gitleaks
+  #    rev: v8.23.1
+  #    hooks:
+  #      - id: gitleaks
+
+  - repo: https://github.com/jendrikseipp/vulture
+    rev: "v2.14" # or any later Vulture version
+    hooks:
+      - id: vulture
+
+  - repo: local
+    hooks:
+      - id: check_sops
+        name: check_sops
+        language: system
+        entry: python3 check_sops.py
+        pass_filenames: false
+        verbose: true
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.5.4
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args:
+          - --fix
+          - --show-fixes
+      # Run the formatter.
+      - id: ruff-format
+
+  #  # mypy - lint-like type checking
+  #  - repo: https://github.com/pre-commit/mirrors-mypy
+  #    rev: v1.15.0
+  #    hooks:
+  #      - id: mypy
+  #        name: mypy
+
+  # Install UV via if missing
+  # command -v uv &> /dev/null || curl -LsSf https://astral.sh/uv/install.sh | sh
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.6.4
+    hooks:
+      - id: uv-lock
+
+  #  - repo: https://github.com/adrienverge/yamllint.git
+  #    rev: v1.35.1
+  #    hooks:
+  #      - id: yamllint
+  #        additional_dependencies: [PyYAML]
+
+  # prettier - formatting JS, CSS, JSON, Markdown, ...
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        exclude: ^uv.lock
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.6.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args: []
