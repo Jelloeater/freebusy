@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  freebusy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    # volumes:
+    #   - ./data:/app/data
+    # environment:
+    #   - NODE_ENV=production
